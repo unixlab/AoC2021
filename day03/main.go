@@ -19,6 +19,14 @@ func stringBitsToInt(input string) int {
 	return returnInt
 }
 
+func arrayToString(array []string) string {
+	var newString strings.Builder
+	for _, v := range array {
+		newString.WriteString(v)
+	}
+	return newString.String()
+}
+
 func Run() {
 	var numbers [][]string
 	file, err := os.Open("day03/input.txt")
@@ -54,4 +62,67 @@ func Run() {
 	epsilonIntValue := stringBitsToInt(epsilon.String())
 
 	fmt.Printf("part 1 => %d\n", gammaIntValue*epsilonIntValue)
+
+	oxygen := make(map[string][]string, len(numbers))
+	co2 := make(map[string][]string, len(numbers))
+	for _, v := range numbers {
+		oxygen[arrayToString(v)] = v
+		co2[arrayToString(v)] = v
+	}
+
+	i := 0
+	for len(oxygen) > 1 {
+		var zeros, ones []string
+		for k, v := range oxygen {
+			if v[i] == "0" {
+				zeros = append(zeros, k)
+			} else {
+				ones = append(ones, k)
+			}
+		}
+		if len(ones) >= len(zeros) {
+			for _, v := range zeros {
+				delete(oxygen, v)
+			}
+		} else {
+			for _, v := range ones {
+				delete(oxygen, v)
+			}
+		}
+		i++
+	}
+
+	var oxygenIntValue int
+	for k, _ := range oxygen {
+		oxygenIntValue = stringBitsToInt(k)
+	}
+
+	i = 0
+	for len(co2) > 1 {
+		var zeros, ones []string
+		for k, v := range co2 {
+			if v[i] == "0" {
+				zeros = append(zeros, k)
+			} else {
+				ones = append(ones, k)
+			}
+		}
+		if len(ones) < len(zeros) {
+			for _, v := range zeros {
+				delete(co2, v)
+			}
+		} else {
+			for _, v := range ones {
+				delete(co2, v)
+			}
+		}
+		i++
+	}
+
+	var co2IntValue int
+	for k, _ := range co2 {
+		co2IntValue = stringBitsToInt(k)
+	}
+
+	fmt.Printf("part 1 => %d\n", oxygenIntValue*co2IntValue)
 }
