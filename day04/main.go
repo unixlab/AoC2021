@@ -10,6 +10,7 @@ import (
 
 type BingoSheet struct {
 	Row []BingoRow
+	Column [5]int
 	Sum int
 }
 
@@ -21,6 +22,20 @@ type BingoRow struct {
 func (bs BingoSheet) checkBingo() bool {
 	for _, v := range bs.Row {
 		if v.Drawn == 5 {
+			return true
+		}
+	}
+	for _, v := range bs.Column {
+		if v == 0 {
+			return true
+		}
+	}
+	return false
+}
+
+func isIn(intArray []int, intNumber int) bool {
+	for _, v := range intArray {
+		if v == intNumber {
 			return true
 		}
 	}
@@ -62,6 +77,7 @@ func Run() {
 		}
 		sheet.Row = append(sheet.Row, row)
 		if counter == 4 {
+			sheet.Column = [5]int{5,5,5,5,5}
 			sheets = append(sheets, sheet)
 			sheet = BingoSheet{}
 			counter = 0
@@ -70,21 +86,33 @@ func Run() {
 		counter++
 	}
 
-Draws:
+	var sheetsWon []int
+	firstFound := false
 	for _, draw := range draws {
 		for i := 0; i < len(sheets); i++ {
+			if isIn(sheetsWon, i) {
+				continue
+			}
 			for x := 0; x < 5; x++ {
 				for y := 0; y < 5; y++ {
 					if sheets[i].Row[x].Row[y] == draw {
 						sheets[i].Sum -= draw
 						sheets[i].Row[x].Drawn += 1
+						sheets[i].Column[y] -= 1
 					}
 				}
 			}
 			if sheets[i].checkBingo() {
-				fmt.Printf("part 1 => %d\n", sheets[i].Sum*draw)
-				break Draws
+				if !firstFound {
+					fmt.Printf("part 1 => %d\n", sheets[i].Sum*draw)
+					firstFound = true
+				}
+				sheetsWon = append(sheetsWon, i)
 			}
+		}
+		if len(sheetsWon) == len(sheets) {
+			fmt.Printf("part 2 => %d\n", sheets[sheetsWon[len(sheets)-1]].Sum*draw)
+			break
 		}
 	}
 }
