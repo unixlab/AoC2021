@@ -9,5 +9,6 @@ func main() {
 	//day02.Run()
 	//day03.Run()
 	//day04.Run()
-	day05.Run()
+	day05.RunPart(1)
+	day05.RunPart(2)
 }

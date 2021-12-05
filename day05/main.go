@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-func Run() {
+func RunPart(part int) {
 	file, err := os.Open("day05/input.txt")
 	if err != nil {
 		panic(err)
@@ -33,30 +33,48 @@ func Run() {
 		x2, _ := strconv.Atoi(cords[0][3])
 		y2, _ := strconv.Atoi(cords[0][4])
 
-		if x1 != x2 && y1 != y2 {
-			continue
+		if part == 1 {
+			if x1 != x2 && y1 != y2 {
+				continue
+			}
 		}
 
-		var xStart, xEnd, yStart, yEnd int
+		var xOperator, yOperator int
+
 		if x1 > x2 {
-			xStart = x2
-			xEnd = x1
+			xOperator = -1
 		} else {
-			xStart = x1
-			xEnd = x2
+			xOperator = 1
 		}
 		if y1 > y2 {
-			yStart = y2
-			yEnd = y1
+			yOperator = -1
 		} else {
-			yStart = y1
-			yEnd = y2
+			yOperator = 1
 		}
 
-		for x := xStart; x <= xEnd; x++ {
-			for y := yStart; y <= yEnd; y++ {
-				grid[x][y]++
+		x := x1
+		for {
+			if xOperator == 1 && x > x2 {
+				break
 			}
+			if xOperator == -1 && x < x2 {
+				break
+			}
+			y := y1
+			for {
+				if yOperator == 1 && y > y2 {
+					break
+				}
+				if yOperator == -1 && y < y2 {
+					break
+				}
+				grid[x][y]++
+				y += yOperator
+				if x1 != x2 && y1 != y2 {
+					x += xOperator
+				}
+			}
+			x += xOperator
 		}
 	}
 
@@ -68,5 +86,5 @@ func Run() {
 			}
 		}
 	}
-	fmt.Printf("part 1 => %d\n", counter)
+	fmt.Printf("part %d => %d\n", part, counter)
 }
