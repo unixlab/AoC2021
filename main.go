@@ -5,6 +5,7 @@ import (
 )
 
 func main() {
+	//dayXX.Run()
 	//day01.Run()
 	//day02.Run()
 	//day03.Run()
