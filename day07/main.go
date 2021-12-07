@@ -41,18 +41,26 @@ func Run() {
 		}
 	}
 
-	minFuel := -1
+	minFuelP1 := -1
+	minFuelP2 := -1
 	for i := minPos; i < maxPos; i++ {
-		posFuel := 0
+		posFuelP1 := 0
+		posFuelP2 := 0
 		for _, v := range positions {
-			if minFuel > 0 && posFuel > minFuel {
+			if minFuelP1 > 0 && posFuelP1 > minFuelP1 && minFuelP2 > 0 && posFuelP2 > minFuelP2 {
 				break
 			}
-			posFuel += intAbs(v - i)
+			distance := intAbs(v - i)
+			posFuelP1 += distance
+			posFuelP2 += distance * (distance + 1) / 2
 		}
-		if posFuel < minFuel || minFuel == -1 {
-			minFuel = posFuel
+		if posFuelP1 < minFuelP1 || minFuelP1 == -1 {
+			minFuelP1 = posFuelP1
+		}
+		if posFuelP2 < minFuelP2 || minFuelP2 == -1 {
+			minFuelP2 = posFuelP2
 		}
 	}
-	fmt.Printf("part 1 => %d\n", minFuel)
+	fmt.Printf("part 1 => %d\n", minFuelP1)
+	fmt.Printf("part 2 => %d\n", minFuelP2)
 }
