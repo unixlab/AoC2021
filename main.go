@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/unixlab/AoC2021/day05"
+	"github.com/unixlab/AoC2021/day06"
 )
 
 func main() {
@@ -10,6 +10,7 @@ func main() {
 	//day02.Run()
 	//day03.Run()
 	//day04.Run()
-	day05.RunPart(1)
-	day05.RunPart(2)
+	//day05.RunPart(1)
+	//day05.RunPart(2)
+	day06.Run()
 }
