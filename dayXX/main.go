@@ -14,8 +14,7 @@ func Run() {
 
 	scanner := bufio.NewScanner(file)
 
-	scanner.Scan()
-	{
+	for scanner.Scan() {
 		fmt.Println(scanner.Text())
 	}
 }
