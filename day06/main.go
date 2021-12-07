@@ -40,4 +40,20 @@ func Run() {
 		numberOfFish += v
 	}
 	fmt.Printf("part 1 => %d\n", numberOfFish)
+
+	for i := 80; i < 256; i++ {
+		fish[7] += fish[0]
+		fish[9] = fish[0]
+		for j := 0; j <= 8; j++ {
+			fish[j] = fish[j+1]
+		}
+	}
+
+	fish[9] = 0
+
+	numberOfFish = 0
+	for _, v := range fish {
+		numberOfFish += v
+	}
+	fmt.Printf("part 2 => %d\n", numberOfFish)
 }
