@@ -29,18 +29,22 @@ func Run() {
 		}
 	}
 
+	i := 1
+	part2Done := false
 	totalFlashes := 0
-	for i := 1; i <= 100; i++ {
+	for !part2Done {
 		for k := range octopuses {
 			octopuses[k]++
 		}
 		flashes := 1
+		flashesPart2 := 0
 		for flashes > 0 {
 			flashes = 0
 			for k := range octopuses {
 				if octopuses[k] > 9 {
 					flashes++
 					totalFlashes++
+					flashesPart2++
 					for _, v := range soroundings {
 						pos := k + v
 						if pos < 0 || pos >= 100 {
@@ -74,8 +78,15 @@ func Run() {
 					octopuses[k] = 0
 				}
 			}
+			if flashesPart2 == 100 {
+				fmt.Printf("part 2 => %d\n", i)
+				part2Done = true
+				break
+			}
 		}
+		if i == 100 {
+			fmt.Printf("part 1 => %d\n", totalFlashes)
+		}
+		i++
 	}
-
-	fmt.Printf("part 1 => %d\n", totalFlashes)
 }
